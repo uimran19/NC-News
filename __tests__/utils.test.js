@@ -39,7 +39,7 @@ describe("convertTimestampToDate", () => {
   });
 });
 
-describe.only('createLookUpObject()', () => {
+describe('createLookUpObject()', () => {
   test('return empty obj if passed empty array', () => {
     const input = []
     const result = createLookUpObject(input, 'title', 'article_id')
