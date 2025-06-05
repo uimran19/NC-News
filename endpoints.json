@@ -6,7 +6,7 @@
     "description": "serves an array of all topics",
     "queries": [],
     "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
+      "topics": [{ "slug": "football", "description": "Footie!", "img_url": "https://images.pexels.com/photos/209841/pexels-photo-209841.jpeg?w=700&h=700" }]
     }
   },
   "GET /api/articles": {

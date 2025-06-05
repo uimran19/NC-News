@@ -25,3 +25,20 @@ describe("GET /api", () => {
       });
   });
 });
+
+describe('GET /api/topics', () => {
+  test('200: Responds with an object with a key of topics and value of array of topic objects', () => {
+    return request(app)
+    .get('/api/topics')
+    .expect(200)
+    .then(({body})=> {
+      const {topics} = body
+      expect(topics.length).not.toBe(0)
+      topics.forEach(({slug, description, img_url})=> {
+        expect(typeof slug).toBe('string')
+        expect(typeof description).toBe('string')
+        expect(typeof img_url).toBe('string')
+      })
+    })
+  });
+});

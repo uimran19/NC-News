@@ -64,7 +64,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     const sqlString = format(`INSERT INTO articles(title, topic, author, body, created_at, votes, article_img_url) VALUES %L RETURNING *`, formattedValues)
     return db.query(sqlString)
   }).then(({rows})=> {
-    console.log(rows)
+    // console.log(rows)
     const formattedComments = commentData.map(convertTimestampToDate)
     const articleLookupObj = createLookUpObject(rows, 'title', 'article_id')
     const formattedValues = formattedComments.map(({article_title, body, votes, author, created_at})=> {
