@@ -10,4 +10,4 @@ const getTopics = (req, res) => {
     })
 }
 
-module.exports = {getTopics}
+module.exports = getTopics
