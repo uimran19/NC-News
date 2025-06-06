@@ -64,3 +64,20 @@ describe('GET /api/articles', () => {
     })
   });
 })
+
+describe.only('GET /api/users', () => {
+  test('200: Responds with an object with a key of users and value of array of users', () => {
+    return request(app)
+    .get('/api/users')
+    .expect(200)
+    .then(({body})=> {
+      const {users} = body
+      expect(users.length).not.toBe(0)
+      users.forEach(({username, name, avatar_url})=> {
+        expect(typeof username).toBe('string')
+        expect(typeof name).toBe('string')
+        expect(typeof avatar_url).toBe('string')
+      })
+    })
+  });
+})
