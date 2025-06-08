@@ -65,7 +65,7 @@ describe('GET /api/articles', () => {
   });
 })
 
-describe.only('GET /api/users', () => {
+describe('GET /api/users', () => {
   test('200: Responds with an object with a key of users and value of array of users', () => {
     return request(app)
     .get('/api/users')
@@ -81,3 +81,38 @@ describe.only('GET /api/users', () => {
     })
   });
 })
+
+describe.only('GET /api/articles/:article_id', () => {
+  test('200: Responds with an object with key article and value article object', () => {
+    return request(app)
+    .get('/api/articles/1')
+    .expect(200)
+    .then(({body})=> {
+      const {article_id, title, topic, author, body: articleBody, created_at, votes, article_img_url} = body.article
+      expect(typeof article_id).toBe('number')
+      expect(typeof title).toBe('string')
+      expect(typeof topic).toBe('string')
+      expect(typeof author).toBe('string')
+      expect(typeof articleBody).toBe('string')
+      expect(typeof created_at).toBe('string')
+      expect(typeof votes).toBe('number')
+      expect(typeof article_img_url).toBe('string')
+    })
+  });
+  test('404: Responds with an error message when passed a non existing id', () => {
+    return request(app)
+    .get('/api/articles/99')
+    .expect(404)
+    .then(({body})=> {
+      expect(body.msg).toBe(`No article found for article_id 99`)
+    })
+  });
+  test('400: Responds with an error message when passed an invalid id', () => {
+    return request(app)
+    .get('/api/articles/notAnId')
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+});
