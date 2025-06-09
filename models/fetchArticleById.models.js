@@ -13,4 +13,4 @@ const fetchArticleById = (article_id)=> {
     })
 }
 
-module.exports = fetchArticleById
+module.exports = {fetchArticleById}

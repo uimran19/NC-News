@@ -82,7 +82,7 @@ describe('GET /api/users', () => {
   });
 })
 
-describe.only('GET /api/articles/:article_id', () => {
+describe('GET /api/articles/:article_id', () => {
   test('200: Responds with an object with key article and value article object', () => {
     return request(app)
     .get('/api/articles/1')
@@ -113,6 +113,53 @@ describe.only('GET /api/articles/:article_id', () => {
     .expect(400)
     .then(({body})=> {
       expect(body.msg).toBe('Invalid input')
+    })
+  });
+});
+
+describe('GET /api/articles/:article_id/comments', () => {
+  test('200: Responds with an object with key comments and value array of comment objects, most recent first', () => {
+    return request(app)
+    .get('/api/articles/3/comments')
+    .expect(200)
+    .then(({body})=> {
+      console.log(body)
+      const {comments} = body
+      expect(comments.length).not.toBe(0)
+      expect(comments).toBeSortedBy('created_at', {descending: true})
+      comments.forEach(({comment_id, votes, created_at, author, body, article_id})=> {
+        expect(typeof comment_id).toBe('number')
+        expect(typeof votes).toBe('number')
+        expect(typeof created_at).toBe('string')
+        expect(typeof author).toBe('string')
+        expect(typeof body).toBe('string')
+        expect(article_id).toBe(3)
+      })
+    })
+  });
+  test('200: Responds with an object with key comments and value empty array when an article has no comments', () => {
+    return request(app)
+    .get('/api/articles/4/comments')
+    .expect(200)
+    .then(({body})=> {
+      const {comments} = body
+      expect(comments).toEqual([])
+    })
+  });
+  test('400: Responds with an error message when passed an invalid id', () => {
+    return request(app)
+    .get('/api/articles/notAnId/comments')
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+  test('404: Responds with an error message when passed a non existing id', () => {
+    return request(app)
+    .get('/api/articles/999/comments')
+    .expect(404)
+    .then(({body})=> {
+      expect(body.msg).toBe(`No article found for article_id 999`)
     })
   });
 });
