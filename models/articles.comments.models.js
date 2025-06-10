@@ -7,3 +7,13 @@ exports.fetchCommentsForArticle = (article_id) => {
         return rows
     })
 }
+
+exports.insertComment = (username, body, article_id) => {
+    return db.query(`INSERT INTO comments (article_id, body, author)
+        VALUES ($1, $2, $3)
+        RETURNING *;`,
+        [article_id, body, username]
+    ).then(({rows})=> {
+        return rows[0]
+    })
+}

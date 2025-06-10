@@ -1,7 +1,10 @@
-const {fetchCommentsForArticle} = require('../models/fetchCommentsForArticle.models')
+const {
+    fetchCommentsForArticle,
+    insertComment
+} = require('../models/articles.comments.models')
 const {fetchArticleById} = require('../models/fetchArticleById.models')
 
-const getCommentsForArticle = (req, res, next)=> {
+exports.getCommentsForArticle = (req, res, next)=> {
     const article_id = req.params.article_id
     Promise.all([fetchArticleById(article_id),fetchCommentsForArticle(article_id)])
     .then(([article, comments])=> {
@@ -12,4 +15,12 @@ const getCommentsForArticle = (req, res, next)=> {
     })
 }
 
-module.exports = getCommentsForArticle
+exports.postCommentToArticle = (req, res, next)=> {
+    const {username, body} = req.body
+    insertComment(username, body, req.params.article_id).then((comment)=> {
+        res.status(201).send({comment})
+    })
+    .catch((err)=> {
+        next(err)
+    })
+}

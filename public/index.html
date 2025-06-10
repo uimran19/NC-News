@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>NC News API</h1>
+        <nav>
+            <ul>
+                <li>GET /api</li>
+                <li>GET /api/topics</li>
+                <li>GET /api/articles</li>
+                <li>GET /api/articles/:article_id</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="get-api">
+            <h2>GET /api</h2>
+            <p>Serves up all the available endpoints of the api</p>
+        </section>
+
+        <section>
+            <h2>GET /api/topics</h2>
+            <p>Returns an array of topic objects</p>
+            <h3>Each topic object contains:</h3>
+            <ul>
+                <li><strong>slug</strong> &rightarrow; (string): The identifier for the topic</li>
+                <li><strong>description</strong> &RightArrow; (string): A short description of the topic</li>
+                <li><strong>img_url</strong> &rightarrow; (string): A link to an image representing the topic</li>
+            </ul>
+            <h3>Example Response:</h3>
+            <pre>
+                    {
+                        "topics": [
+                            {
+                                "slug": "football",
+                                "description": "Footie!",
+                                "img_url": "https://images.pexels.com/photos/209841/pexels-photo-209841.jpeg?w=700&h=700"
+                            }
+                        ]
+                    }
+            </pre>
+        </section>
+
+        <section>
+            <h2>GET /api/articles</h2>
+            <p>Returns an array of article objects</p>
+            <h3>Each article object contains:</h3>
+            <ul>
+                <li><strong>article_id</strong> &rightarrow; (number): The identifier for the article</li>
+                <li><strong>title</strong> &RightArrow; (string): The title of the article</li>
+                <li><strong>topic</strong> &rightarrow; (string): The topic name of the article</li>
+                <li><strong>author</strong> &rightarrow; (string): The author of the article</li>
+                <li><strong>created_at</strong> &rightarrow; (string): The article publication date</li>
+                <li><strong>votes</strong> &rightarrow; (number): The number of votes given to an article</li>
+                <li><strong>article_img_url</strong> &rightarrow; (string): A link to an image representing the article</li>
+                <li><strong>comment_count</strong> &rightarrow; (number): The total number of comments on an article</li>
+            </ul>
+            <h3>Example Response:</h3>
+            <pre>
+                    {
+                        "articles": [
+                            {
+                                "article_id": 33,
+                                "title": "Seafood substitutions are increasing",
+                                "topic": "cooking",
+                                "author": "weegembump",
+                                "created_at" "2018-05-30T15:59:13.341Z",
+                                "votes": 0,
+                                "article_img_url": "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=700&h=700",
+                                "comment_count": 6
+                            }
+                        ]
+                    }
+            </pre>
+        </section>
+
+        <section>
+            <h2>GET /api/users</h2>
+            <p>Returns an array of user objects</p>
+            <h3>Each article object contains:</h3>
+            <ul>
+                <li><strong>username</strong> &rightarrow; (string): The username pertaining to a user</li>
+                <li><strong>name</strong> &RightArrow; (string): The name of the user</li>
+                <li><strong>avatar_url</strong> &rightarrow; (string): A link to</li>
+            </ul>
+            <h3>Example Response:</h3>
+            <pre>
+                    {
+                        "users": [
+                            {
+                                "username": "tickle122",
+                                "name": "Tom Tickle",
+                                "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+                            }
+                        ]
+                    }
+            </pre>
+        </section>
+
+    </main>
+</body>
+</html>

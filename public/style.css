@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(227, 225, 225);
+}
+
+h1{
+    color: red;
+    background-color: black;
+}
+
+
+section{
+    color: green;
+    border: 3px solid darkblue;
+    margin: 10px;
+}
+
+pre{
+    background-color: silver;
+    padding: 9px;
+}
+
+h2{
+    color: hotpink;
+}
+
+p{
+    color: purple;
+    margin: 5px;
+}
+
+h3{
+    font-family: monospace;
+    margin: 8px;
+}
+
+li{
+    margin-left: 35px;
+    color: black;
+}
