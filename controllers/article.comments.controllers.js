@@ -17,7 +17,12 @@ exports.getCommentsForArticle = (req, res, next)=> {
 
 exports.postCommentToArticle = (req, res, next)=> {
     const {username, body} = req.body
-    insertComment(username, body, req.params.article_id).then((comment)=> {
+    if (!username || !body) {
+        return Promise.reject({status: 400, msg: 'username and body must exist'})
+    }
+    const article_id = req.params.article_id
+    Promise.all([fetchArticleById(article_id), insertComment(username, body, article_id)])
+    .then(([article, comment])=> {
         res.status(201).send({comment})
     })
     .catch((err)=> {

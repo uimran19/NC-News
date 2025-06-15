@@ -123,7 +123,6 @@ describe('GET /api/articles/:article_id/comments', () => {
     .get('/api/articles/3/comments')
     .expect(200)
     .then(({body})=> {
-      console.log(body)
       const {comments} = body
       expect(comments.length).not.toBe(0)
       expect(comments).toBeSortedBy('created_at', {descending: true})
@@ -164,39 +163,79 @@ describe('GET /api/articles/:article_id/comments', () => {
   });
 });
 
-// describe.only('POST /api/articles/:article_id/comments', () => {
-//   test('201: Posts a new comment and responds with the newly posted comment', () => {
-//     return request(app)
-//     .post('/api/articles/4/comments')
-//     .send({
-//       username: "icellusedkars",
-//       body: "Very informative!"
-//     })
-//     .expect(201)
-//     .then(({body})=> {
-//       const {comment_id, article_id, body: commentBody, votes, author, created_at} = body.comment
-//       expect(typeof comment_id).toBe('number')
-//       expect(typeof article_id).toBe('number')
-//       expect(commentBody).toBe('Very informative!')
-//       expect(typeof votes).toBe('number')
-//       expect(author).toBe('icellusedkars')
-//       expect(typeof created_at).toBe('string')
-//     })
-//   });
-//   test('400: Responds with an error message when passed an invalid id', () => {
-//     return request(app)
-//     .post('/api/articles/notAnId/comments')
-//     .expect(400)
-//     .then(({body})=> {
-//       expect(body.msg).toBe('Invalid input')
-//     })
-//   });
-//   test('400: Responds with an error message when username is missing', () => {
-//     return request(app)
-//     .post('/api/articles/4/comments')
-//     .send({
-//       body: "something"
-//     })
-//     .expect(400)
-//   })
-// });
+describe('POST /api/articles/:article_id/comments', () => {
+  test('201: Posts a new comment and responds with the newly posted comment', () => {
+    return request(app)
+    .post('/api/articles/4/comments')
+    .send({
+      username: "icellusedkars",
+      body: "Very informative!"
+    })
+    .expect(201)
+    .then(({body})=> {
+      const {comment_id, article_id, body: commentBody, votes, author, created_at} = body.comment
+      expect(typeof comment_id).toBe('number')
+      expect(typeof article_id).toBe('number')
+      expect(commentBody).toBe('Very informative!')
+      expect(typeof votes).toBe('number')
+      expect(author).toBe('icellusedkars')
+      expect(typeof created_at).toBe('string')
+    })
+  });
+  test('400: Responds with an error message when passed an invalid id', () => {
+    return request(app)
+    .post('/api/articles/notAnId/comments')
+    .send({
+      username: 'icellusedkars',
+      body: 'potatoes'
+    })
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+  test('400: Responds with an error message when username is missing', () => {
+    return request(app)
+    .post('/api/articles/4/comments')
+    .send({
+      body: "something"
+    })
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('username and body must exist')
+    })
+  })
+  test('400: Responds with an error message when body is missing', () => {
+    return request(app)
+    .post('/api/articles/4/comments')
+    .send({username: 'icellusedkars'})
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('username and body must exist')
+    })
+  });
+  test('400: Responds with an error message upon foreign key violation/user does not exist', () => {
+    return request(app)
+    .post('/api/articles/4/comments')
+    .send({
+      username: 'hello123',
+      body: 'hello everyone'
+    })
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('user does not exist')
+    })
+  });
+  test('404: Responds with an error message when passed a non existing id', () => {
+    return request(app)
+    .post('/api/articles/999/comments')
+    .send({
+      username: 'icellusedkars',
+      body: 'great post'
+    })
+    .expect(404)
+    .then(({body})=> {
+      expect(body.msg).toBe('No article found for article_id 999')
+    })
+  });
+});
