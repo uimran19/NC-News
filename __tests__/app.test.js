@@ -239,3 +239,60 @@ describe('POST /api/articles/:article_id/comments', () => {
     })
   });
 });
+
+describe('PATCH /api/articles/:article_id', () => {
+  test('200: Updates the vote count on a specified article and responds with the updated article', () => {
+    return request(app)
+    .patch('/api/articles/2')
+    .send({inc_votes: 50})
+    .expect(200)
+    .then(({body})=> {
+      const {article_id, title, topic, author, body: articleBody, created_at, votes, article_img_url} = body.article
+      expect(article_id).toBe(2)
+      expect(typeof title).toBe('string')
+      expect(typeof topic).toBe('string')
+      expect(typeof author).toBe('string')
+      expect(typeof articleBody).toBe('string')
+      expect(typeof created_at).toBe('string')
+      expect(votes).toBe(50)
+      expect(typeof article_img_url).toBe('string')
+    })
+  });
+  test('400: Responds with error when passed an invalid vote', () => {
+    return request(app)
+    .patch('/api/articles/1')
+    .send({inc_votes: 'six'})
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+  test('400: Responds with error when inc_votes key is missing', () => {
+    return request(app)
+    .patch('/api/articles/1')
+    .send({})
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('inc_votes key must be present')
+    })
+  });
+  test('400: Responds with error when passed an invalid article id', () => {
+    return request(app)
+    .patch('/api/articles/invalidId')
+    .send({inc_votes: 5})
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+  test('404: Responds with error when passed a non existent article id', () => {
+    return request(app)
+    .patch('/api/articles/999')
+    .send({inc_votes: 5})
+    .expect(404)
+    .then(({body})=> {
+      expect(body.msg).toBe('No article found for article_id 999')
+    })
+  })
+});
+
