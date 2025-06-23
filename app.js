@@ -25,8 +25,11 @@ const {
     handleServerErrors
 } = require('./errors')
 
+const cors = require('cors')
+
 app.use(express.static('public'))
 app.use(express.json())
+app.use(cors())
 
 app.get('/api', (req, res)=> {
     res.status(200).send({endpoints})

@@ -320,3 +320,4 @@ describe('DELETE /api/comments/:comment_id', () => {
   });
 });
 
+//22p02 neccessity question
