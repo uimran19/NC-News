@@ -14,6 +14,11 @@ const {
     getCommentsForArticle,
     postCommentToArticle
 } = require('./controllers/article.comments.controllers')
+
+const {
+    removeComment
+} = require('./controllers/comments.controllers')
+
 const {
     handlePsqlErrors,
     handleCustomErrors,
@@ -42,6 +47,9 @@ app.post('/api/articles/:article_id/comments', postCommentToArticle)
 
 
 app.patch('/api/articles/:article_id', patchArticle)
+
+
+app.delete('/api/comments/:comment_id', removeComment)
 
 
 app.use(handlePsqlErrors)

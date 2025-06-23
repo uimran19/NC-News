@@ -296,3 +296,27 @@ describe('PATCH /api/articles/:article_id', () => {
   })
 });
 
+describe('DELETE /api/comments/:comment_id', () => {
+  test('204: Deletes the comment and responds with no content', () => {
+    return request(app)
+    .delete('/api/comments/1')
+    .expect(204)
+  });
+  test('400: Responds with error when passed invalid comment id', () => {
+    return request(app)
+    .delete('/api/comments/invalidCommentId')
+    .expect(400)
+    .then(({body})=> {
+      expect(body.msg).toBe('Invalid input')
+    })
+  });
+  test('404: Responds with error when passed a non existent comment id', () => {
+    return request(app)
+    .delete('/api/comments/999')
+    .expect(404)
+    .then(({body})=> {
+      expect(body.msg).toBe('no comment found for comment_id 999')
+    })
+  });
+});
+

@@ -90,7 +90,7 @@
   },
   "PATCH /api/articles/:article_id": {
     "description": "updates the vote count on a specified article",
-    "params": {"article_id":"The ID of the article to retrieve"},
+    "params": {"article_id": "The ID of the article to retrieve"},
     "requestBody": {"inc_votes": "newVote (number)"},
     "exampleResponse": {
       "article": {
@@ -104,5 +104,9 @@
         "article_img_url": "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=700&h=700"
       }
     }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes specified comment by ID",
+    "params": {"comment_id": "The ID of the comment to delete"}
   }
 }
